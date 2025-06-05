@@ -80,8 +80,11 @@ export default function PokeCard(props) {
     // 2, check if the selected pokemon is in the cache, otherwise fetch from API
     if (selectedPokemon in cache) {
       // read from cache
+      cache[selectedPokemon].moves.sort((a, b) =>
+        a.move.name.localeCompare(b.move.name)
+      );
       setData(cache[selectedPokemon]);
-      console.log("Found pokemon in cache");
+      console.log("Found pokemon in cache", cache[selectedPokemon]);
       return;
     }
 
@@ -94,6 +97,9 @@ export default function PokeCard(props) {
         const finalUrl = baseUrl + suffix;
         const res = await fetch(finalUrl);
         const pokemonData = await res.json();
+        pokemonData.moves.sort((a, b) =>
+          a.move.name.localeCompare(b.move.name)
+        );
         setData(pokemonData);
         console.log("Fetched pokemon data");
 
